@@ -1,0 +1,50 @@
+<form #f="ngForm" (ngSubmit)="submit(f)">
+  <div ngModelGroup="contact" #contact="ngModelGroup">
+    <div *ngIf="!contact.valid">Test</div>
+    <div class='form-group'>
+      <label for="firstName">FirstName</label>
+      <input required minlength="3" maxlength="10" pattern="banana" ngModel name="firstName" #firstName="ngModel"
+        id="firstName" type="text" class="form-control">
+    </div>
+    <div class="alert alert-danger" *ngIf="firstName.touched && !firstName.valid">
+      <div *ngIf="firstName.errors.required">FirstName is required</div>
+      <div *ngIf="firstName.errors.minlength">FirstName should be minimun 3 characters</div>
+      <div *ngIf="firstName.errors.pattern">FirstName doesn't match pattern</div>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="comment">Comment</label>
+    <textarea ngModel name="comment" class="form-control" id="comment" cols="30" rows="10"></textarea>
+  </div>
+  <div class="checkbox">
+    <label for="checkBox">
+      <input ngModel name="isSubscribed" type="checkbox" id="comment" /> Subscribe to mailing list
+    </label>
+  </div>
+  <p>{{f.value | json }}</p>
+  <div class="form-group">
+    <label for="contactMethod">Contact Method</label>
+    <select multiple ngModel name="contactMethod" id="contactMethod" class="form-control">
+      <option></option>
+      <option *ngFor="let contactMethod of contactMethods" [value]="contactMethod.id">{{contactMethod.name}} </option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label for="contactMethod">Contact Method sends Whole object</label>
+    <select multiple ngModel name="contactMethodWithObjects" id="contactMethod" class="form-control">
+      <option></option>
+      <option *ngFor="let contactMethod of contactMethods" [ngValue]="contactMethod">{{contactMethod.name}} </option>
+    </select>
+  </div>
+  <div *ngFor="let contactMethod of contactMethods" class="radio">
+    <label for="">
+        <input ngModel  type='radio' name='contactMethodRadio' [value]="contactMethod.id" /> {{contactMethod.name}}
+    </label>
+  </div> 
+  <!-- <div class="radio">
+      <label for="">
+          <input ngModel type='radio' name='contactMethodRadio' value="2" /> Phone
+      </label>
+    </div>  -->
+  <button [disabled]="!f.valid" class="btn btn-primary">Submit</button>
+</form>
