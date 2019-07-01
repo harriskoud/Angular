@@ -1,12 +1,15 @@
 <button class="btn btn-primary" (click)="loadPosts()">Load Posts</button>
 <button class="btn btn-primary" (click)="unLoadPosts()">UnLoad Posts</button>
 
+
 <input (keyup.enter)="createPost(title)"  type="text" class="form-control"  #title > 
 
 <div>
   <ul class="list-group">
     <li *ngFor="let post of posts; index as i" class="list-group-item">
       <div *ngIf="dividedWith2(i)">
+          <button class="btn btn-primary" (click)="updatePost(post)">Update Post </button>
+          <button class="btn btn-primary" (click)="deletePost(post)">Delete Post </button>
         {{i+1}}. {{post.title}}
       </div>
     </li>

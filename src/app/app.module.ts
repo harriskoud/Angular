@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 import { HttpModule } from '@angular/http'
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -8,7 +8,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CourseFormComponent } from './course-form/course-form.component';
 import { SignupFormComponent } from './signup-form/signup-form.component';
 import { NewCourseFormComponent } from './new-course-form/new-course-form.component';
-import { PostsComponent } from './posts/posts.component'; 
+import { PostsComponent } from './posts/posts.component';
+import { PostService } from './services/post.service';
+import { AppErrorHander } from './common/app-error-handler';
+import { GithubConsumerComponent } from './github-consumer/github-consumer.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -18,15 +22,19 @@ import { PostsComponent } from './posts/posts.component';
     SignupFormComponent,
     SignupFormComponent,
     NewCourseFormComponent,
-    PostsComponent  ],
+    PostsComponent,
+    GithubConsumerComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpModule
+    HttpClientModule 
   ],
-  providers: [],
+  providers: [PostService, {
+    provide: ErrorHandler,
+    useClass: AppErrorHander
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
