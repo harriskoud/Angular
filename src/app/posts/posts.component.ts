@@ -38,12 +38,13 @@ export class PostsComponent implements OnInit {
     let postObj = {
       title: input.value
     }
+    this.posts.splice(0, 0, postObj);
+    input.value = '';
+
+
     this.service.createPost(input, postObj)
       .subscribe(newPost => {
-        postObj['id'] = newPost.id
-        this.posts.splice(0, 0, postObj);
-        input.value = '';
-        console.log(newPost);
+        postObj['id'] = newPost.id;
       },
         (error: Response) => {
           if (error.status === 400) {

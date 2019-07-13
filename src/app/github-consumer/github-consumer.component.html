@@ -1,13 +1,18 @@
-<form  #f="ngForm">
+<form [formGroup]="form">
   <div class="form-group">
     <label for="username">UserName</label>
-    <input class="form-control" ngModel #username="ngModel" name="username" type="text">
-    <button class="btn btn-primary" (click)="getFollowersByUserName(username)">Fetch Followers</button>
+    <input class="form-control" formControlName='username' id='username' type="text" required >
+    <button [disabled]="!form.get('username').valid" class="btn btn-primary" (click)="getFollowersByUserName(username)">Fetch Followers</button>
   </div>
+  <div class="alert alert-danger" *ngIf="form.get('username').touched && !form.get('username').valid">
+    <div *ngIf="form.get('username').errors.required">username is required</div>
+  </div>
+
   <ul class="list-group">
     <li *ngFor="let follower of followers" class="list-group-item">
       <img src="{{follower.avatar_url}}" alt="Smiley face" height="100" width="100">
       {{follower.login}}
+      <a [routerLink]="['/followers','follower.id','follower.username']" [queryParams]="{page: 1}" >{{follower.id}}</a>
     </li>
   </ul>
 </form>

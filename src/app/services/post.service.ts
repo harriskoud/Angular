@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpModule, Http } from '@angular/http';
 import { NotFoundError } from '../common/not-found-error';
-import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AppError } from '../common/app-error';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
 
 
 @Injectable({
@@ -20,7 +21,9 @@ export class PostService {
   }
 
   loadPosts() {
-    return this.http.get(this.url).map(response => response.json()).catch(this.handleError);
+    return this.http.get(this.url)
+    .map(response => response.json())
+    .catch(this.handleError);
   }
 
   createPost(input: HTMLInputElement, postObj) {
@@ -30,14 +33,14 @@ export class PostService {
   updatePost(post) {
     //this.http.patch(this.url,JSON.stringify({isRead: true}));
     //Perfomnace Benefit if the api supports the patch
-    return this.http.put(this.url + '/' + post.id, JSON.stringify(post)).map(response => response.json()).catch(this.handleError);
+    return this.http.put(this.url + '/' + post.id, JSON.stringify(post)).map(response => response).catch(this.handleError);
   }
 
   deletePost(id) {
-    return this.http.delete(this.url + '/' + id)
-      .catch((error: Response) => {
-        return Observable.throw(new AppError(error));
-      });
+    return this.http.delete(this.url + '/' + id).catch(this.handleError);
+     // .catch((error: Response) => {
+      //  return Observable.throw(new AppError(error));
+     // });
     //if (error.status === 400) return Observable.throw(new NotFoundError)
   }
 
